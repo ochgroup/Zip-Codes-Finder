@@ -144,7 +144,6 @@ const Navbar = () => {
             <Link to="/features" className="text-gray-600 dark:text-gray-300 hover:text-[#8B5CF6] dark:hover:text-[#8B5CF6] font-medium transition">Features</Link>
             <Link to="/about" className="text-gray-600 dark:text-gray-300 hover:text-[#8B5CF6] dark:hover:text-[#8B5CF6] font-medium transition">About</Link>
             <Link to="/contact" className="text-gray-600 dark:text-gray-300 hover:text-[#8B5CF6] dark:hover:text-[#8B5CF6] font-medium transition">Contact</Link>
-            <Link to="/admin" className="px-5 py-2 rounded-full bg-gray-50 dark:bg-gray-800 text-gray-700 dark:text-gray-200 font-medium border border-gray-200 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-[#8B5CF6] transition shadow-sm">Admin Login</Link>
             <button 
               onClick={toggleTheme} 
               className="w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-yellow-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition flex items-center justify-center"
@@ -174,7 +173,6 @@ const Navbar = () => {
              <Link to="/features" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-[#8B5CF6] hover:bg-purple-50 dark:hover:bg-gray-800">Features</Link>
              <Link to="/about" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-[#8B5CF6] hover:bg-purple-50 dark:hover:bg-gray-800">About</Link>
              <Link to="/contact" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-[#8B5CF6] hover:bg-purple-50 dark:hover:bg-gray-800">Contact</Link>
-             <Link to="/admin" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-[#8B5CF6] hover:bg-purple-50 dark:hover:bg-gray-800">Admin</Link>
           </div>
         </div>
       )}

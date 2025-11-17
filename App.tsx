@@ -827,26 +827,27 @@ const AdminLogin = ({ onLogin }: { onLogin: () => void }) => {
   );
 };
 
-const AdminSidebar = ({ onLogout }: { onLogout: () => void }) => {
+const AdminSidebar = ({ onLogout, className, onItemClick }: { onLogout: () => void, className?: string, onItemClick?: () => void }) => {
     const location = useLocation();
     const isActive = (path: string) => location.pathname === path;
+    const baseClasses = "w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 min-h-screen flex flex-col flex-shrink-0 z-30 relative transition-colors";
     
     return (
-        <div className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 min-h-screen flex flex-col flex-shrink-0 hidden md:flex z-30 relative transition-colors">
+        <div className={`${baseClasses} ${className || ''}`}>
             <div className="h-16 flex items-center px-6 border-b border-gray-100 dark:border-gray-700">
-                 <span className="font-extrabold text-xl text-gray-800 dark:text-white">Admin<span className="text-[#8B5CF6]">Panel</span></span>
+                 <span className="font-extrabold text-xl text-gray-800 dark:text-white">Admin <span className="text-[#8B5CF6]">Panel</span></span>
             </div>
             <div className="flex-1 py-6 px-3 space-y-1">
-                <Link to="/admin" className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${isActive('/admin') ? 'bg-purple-50 dark:bg-gray-700 text-[#8B5CF6]' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}`}>
+                <Link to="/admin" onClick={onItemClick} className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${isActive('/admin') ? 'bg-purple-50 dark:bg-gray-700 text-[#8B5CF6]' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}`}>
                     <i className="fa-solid fa-chart-pie w-5"></i> Dashboard
                 </Link>
-                <Link to="/admin/manage" className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${isActive('/admin/manage') ? 'bg-purple-50 dark:bg-gray-700 text-[#8B5CF6]' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}`}>
+                <Link to="/admin/manage" onClick={onItemClick} className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${isActive('/admin/manage') ? 'bg-purple-50 dark:bg-gray-700 text-[#8B5CF6]' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}`}>
                     <i className="fa-solid fa-list-check w-5"></i> Manage Items
                 </Link>
-                <Link to="/admin/add" className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${isActive('/admin/add') ? 'bg-purple-50 dark:bg-gray-700 text-[#8B5CF6]' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}`}>
+                <Link to="/admin/add" onClick={onItemClick} className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${isActive('/admin/add') ? 'bg-purple-50 dark:bg-gray-700 text-[#8B5CF6]' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}`}>
                     <i className="fa-solid fa-circle-plus w-5"></i> Add New Item
                 </Link>
-                <Link to="/admin/settings" className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${isActive('/admin/settings') ? 'bg-purple-50 dark:bg-gray-700 text-[#8B5CF6]' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}`}>
+                <Link to="/admin/settings" onClick={onItemClick} className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition ${isActive('/admin/settings') ? 'bg-purple-50 dark:bg-gray-700 text-[#8B5CF6]' : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'}`}>
                     <i className="fa-solid fa-gear w-5"></i> Settings
                 </Link>
                 
@@ -889,7 +890,7 @@ const AdminDashboard = () => {
     return (
         <div className="p-8">
             <div className="flex justify-between items-center mb-8">
-                <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Dashboard Overview</h1>
+                <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Admin Panel</h1>
                 <span className="text-sm text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 px-3 py-1 rounded-full border border-gray-200 dark:border-gray-700 shadow-sm">Last updated: Just now</span>
             </div>
             
@@ -1550,6 +1551,7 @@ const AdminLayout = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(() => {
         return localStorage.getItem('admin_auth') === 'true';
     });
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const handleLogin = () => {
         localStorage.setItem('admin_auth', 'true');
@@ -1559,6 +1561,7 @@ const AdminLayout = () => {
     const handleLogout = () => {
         localStorage.removeItem('admin_auth');
         setIsAuthenticated(false);
+        setIsMobileMenuOpen(false);
     };
 
     if (!isAuthenticated) {
@@ -1567,11 +1570,30 @@ const AdminLayout = () => {
 
     return (
         <div className="flex h-screen bg-gray-50 dark:bg-gray-900 overflow-hidden font-inter transition-colors">
-            <AdminSidebar onLogout={handleLogout} />
+            {/* Desktop Sidebar */}
+            <AdminSidebar onLogout={handleLogout} className="hidden md:flex" />
+
+            {/* Mobile Sidebar Overlay */}
+            {isMobileMenuOpen && (
+                <div className="fixed inset-0 z-50 md:hidden">
+                    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" onClick={() => setIsMobileMenuOpen(false)}></div>
+                    <AdminSidebar 
+                        onLogout={handleLogout} 
+                        className="absolute top-0 left-0 h-full shadow-2xl animate-slide-in"
+                        onItemClick={() => setIsMobileMenuOpen(false)}
+                    />
+                </div>
+            )}
+
             <div className="flex-1 overflow-auto relative">
                 {/* Mobile Admin Header */}
                 <div className="md:hidden h-16 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between px-4 shadow-sm sticky top-0 z-20">
-                    <span className="font-bold text-lg text-gray-800 dark:text-white">Admin Panel</span>
+                    <div className="flex items-center gap-3">
+                        <button onClick={() => setIsMobileMenuOpen(true)} className="text-gray-600 dark:text-white hover:text-[#8B5CF6] focus:outline-none">
+                            <i className="fa-solid fa-bars text-xl"></i>
+                        </button>
+                        <span className="font-bold text-lg text-gray-800 dark:text-white">Admin Panel</span>
+                    </div>
                     <button onClick={handleLogout} className="text-sm text-red-500 font-medium">Exit</button>
                 </div>
                 <Routes>

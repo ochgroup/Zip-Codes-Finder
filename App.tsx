@@ -141,6 +141,7 @@ const Navbar = () => {
           </div>
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-gray-600 dark:text-gray-300 hover:text-[#8B5CF6] dark:hover:text-[#8B5CF6] font-medium transition">Home</Link>
+            <Link to="/" className="text-gray-600 dark:text-gray-300 hover:text-[#8B5CF6] dark:hover:text-[#8B5CF6] font-medium transition">Search</Link>
             <Link to="/features" className="text-gray-600 dark:text-gray-300 hover:text-[#8B5CF6] dark:hover:text-[#8B5CF6] font-medium transition">Features</Link>
             <Link to="/about" className="text-gray-600 dark:text-gray-300 hover:text-[#8B5CF6] dark:hover:text-[#8B5CF6] font-medium transition">About</Link>
             <Link to="/contact" className="text-gray-600 dark:text-gray-300 hover:text-[#8B5CF6] dark:hover:text-[#8B5CF6] font-medium transition">Contact</Link>
@@ -170,6 +171,7 @@ const Navbar = () => {
         <div className="md:hidden bg-white dark:bg-gray-900 border-b border-purple-100 dark:border-gray-800 shadow-lg">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
              <Link to="/" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-[#8B5CF6] hover:bg-purple-50 dark:hover:bg-gray-800">Home</Link>
+             <Link to="/" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-[#8B5CF6] hover:bg-purple-50 dark:hover:bg-gray-800">Search</Link>
              <Link to="/features" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-[#8B5CF6] hover:bg-purple-50 dark:hover:bg-gray-800">Features</Link>
              <Link to="/about" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-[#8B5CF6] hover:bg-purple-50 dark:hover:bg-gray-800">About</Link>
              <Link to="/contact" onClick={() => setIsOpen(false)} className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-[#8B5CF6] hover:bg-purple-50 dark:hover:bg-gray-800">Contact</Link>

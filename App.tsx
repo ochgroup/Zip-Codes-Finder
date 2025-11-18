@@ -9,7 +9,7 @@ import { PostalRecord, SearchType, SearchFilters, DashboardStats } from './types
 const SiteMeta = () => {
   useEffect(() => {
     const updateMeta = () => {
-      const title = localStorage.getItem('site_title') || 'Zip Code Finder';
+      const title = localStorage.getItem('site_title') || 'Find My Code';
       const desc = localStorage.getItem('site_desc') || 'A modern, aesthetic Pakistan Pincode Finder.';
       const favicon = localStorage.getItem('site_favicon');
 
@@ -88,7 +88,7 @@ const SiteMeta = () => {
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
-  const [siteName, setSiteName] = useState('Zip Code Finder');
+  const [siteName, setSiteName] = useState('Find My Code');
   const [siteLogo, setSiteLogo] = useState('');
 
   useEffect(() => {
@@ -103,12 +103,12 @@ const Navbar = () => {
 
   useEffect(() => {
     // Initial load
-    setSiteName(localStorage.getItem('site_name') || 'Zip Code Finder');
+    setSiteName(localStorage.getItem('site_name') || 'Find My Code');
     setSiteLogo(localStorage.getItem('site_logo') || '');
 
     // Custom event listener for instant updates from Admin panel
     const handleConfigChange = () => {
-        setSiteName(localStorage.getItem('site_name') || 'Zip Code Finder');
+        setSiteName(localStorage.getItem('site_name') || 'Find My Code');
         setSiteLogo(localStorage.getItem('site_logo') || '');
     };
     window.addEventListener('site-config-updated', handleConfigChange);
@@ -390,41 +390,50 @@ const FilterBar = ({
     districts: string[] 
 }) => (
     <div className="bg-white dark:bg-gray-800 p-4 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 mb-8 flex flex-col sm:flex-row gap-4 items-center justify-center transition-colors">
-        <select 
-            className="w-full sm:w-48 bg-white dark:bg-gray-700 px-4 py-2.5 rounded-full border border-gray-200 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-200 focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] outline-none cursor-pointer hover:border-purple-200 dark:hover:border-purple-700 transition shadow-sm"
-            value={filters.province}
-            onChange={(e) => setFilters({...filters, province: e.target.value, district: ''})}
-        >
-            <option value="">All States</option>
-            {provinces.map(p => <option key={p} value={p}>{p}</option>)}
-        </select>
+        <div className="relative w-full sm:w-48">
+            <i className="fa-solid fa-map absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 z-10"></i>
+            <select 
+                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-200 focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] outline-none cursor-pointer hover:border-purple-200 dark:hover:border-purple-700 transition shadow-sm appearance-none"
+                value={filters.province}
+                onChange={(e) => setFilters({...filters, province: e.target.value, district: ''})}
+            >
+                <option value="">All States</option>
+                {provinces.map(p => <option key={p} value={p}>{p}</option>)}
+            </select>
+        </div>
 
-        <select 
-            className="w-full sm:w-48 bg-white dark:bg-gray-700 px-4 py-2.5 rounded-full border border-gray-200 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-200 focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] outline-none cursor-pointer hover:border-purple-200 dark:hover:border-purple-700 transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
-            value={filters.district}
-            onChange={(e) => setFilters({...filters, district: e.target.value})}
-            disabled={!districts.length}
-        >
-            <option value="">{filters.province ? 'All Districts' : 'Select State First'}</option>
-            {districts.map(d => <option key={d} value={d}>{d}</option>)}
-        </select>
+        <div className="relative w-full sm:w-48">
+             <i className="fa-solid fa-map-pin absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 z-10"></i>
+            <select 
+                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-200 focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] outline-none cursor-pointer hover:border-purple-200 dark:hover:border-purple-700 transition shadow-sm disabled:opacity-50 disabled:cursor-not-allowed appearance-none"
+                value={filters.district}
+                onChange={(e) => setFilters({...filters, district: e.target.value})}
+                disabled={!districts.length}
+            >
+                <option value="">{filters.province ? 'All Districts' : 'Select State First'}</option>
+                {districts.map(d => <option key={d} value={d}>{d}</option>)}
+            </select>
+        </div>
         
-        <select 
-            className="w-full sm:w-48 bg-white dark:bg-gray-700 px-4 py-2.5 rounded-full border border-gray-200 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-200 focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] outline-none cursor-pointer hover:border-purple-200 dark:hover:border-purple-700 transition shadow-sm"
-            value={filters.status}
-            onChange={(e) => setFilters({...filters, status: e.target.value})}
-        >
-            <option value="">All Delivery Status</option>
-            <option value="Delivery">Delivery</option>
-            <option value="Non-Delivery">Non-Delivery</option>
-        </select>
+        <div className="relative w-full sm:w-48">
+            <i className="fa-solid fa-truck absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 z-10"></i>
+            <select 
+                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-sm font-medium text-gray-700 dark:text-gray-200 focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] outline-none cursor-pointer hover:border-purple-200 dark:hover:border-purple-700 transition shadow-sm appearance-none"
+                value={filters.status}
+                onChange={(e) => setFilters({...filters, status: e.target.value})}
+            >
+                <option value="">All Delivery Status</option>
+                <option value="Delivery">Delivery</option>
+                <option value="Non-Delivery">Non-Delivery</option>
+            </select>
+        </div>
 
         { (filters.province || filters.district || filters.status) && 
             <button 
                 onClick={() => setFilters({ province: '', district: '', status: '' })}
-                className="px-6 py-2.5 rounded-full bg-gradient-to-r from-red-500 to-pink-500 text-white text-sm font-bold transition hover:shadow-lg transform hover:-translate-y-0.5"
+                className="px-6 py-2.5 rounded-full bg-gradient-to-r from-red-500 to-pink-500 text-white text-sm font-bold transition hover:shadow-lg transform hover:-translate-y-0.5 whitespace-nowrap"
             >
-                <i className="fa-solid fa-xmark mr-2"></i> Clear Filters
+                <i className="fa-solid fa-xmark mr-2"></i> Clear
             </button>
         }
     </div>
@@ -521,7 +530,7 @@ const Home = () => {
     setResults(allData);
     setProvinces(Array.from(new Set(allData.map(d => d.province))).sort());
     setDistricts(postalService.getDistricts()); // Initial all districts
-    setSiteName(localStorage.getItem('site_name')?.replace('Zip Code Finder', '') || 'Pakistan');
+    setSiteName(localStorage.getItem('site_name')?.replace('Find My Code', '') || 'Pakistan');
   }, []);
 
   // Update Districts when Province changes
@@ -534,12 +543,8 @@ const Home = () => {
     const performSearch = async () => {
       setLoading(true);
       
-      let data = postalService.search(query, activeTab as any);
-      
-      // Apply Filters
-      if (filters.province) data = data.filter(d => d.province === filters.province);
-      if (filters.district) data = data.filter(d => d.district === filters.district);
-      if (filters.status) data = data.filter(d => d.deliveryStatus === filters.status);
+      // Now using the service method that supports filters asynchronously
+      let data = await postalService.search(query, activeTab as any, filters);
       
       setResults(data);
       setLoading(false);
@@ -1252,10 +1257,10 @@ const AdminSettings = () => {
 
     // General Settings State
     const [generalSettings, setGeneralSettings] = useState({
-        websiteName: localStorage.getItem('site_name') || 'Zip Code Finder',
-        websiteTitle: localStorage.getItem('site_title') || 'Zip Code Finder - Pakistan',
+        websiteName: localStorage.getItem('site_name') || 'Find My Code',
+        websiteTitle: localStorage.getItem('site_title') || 'Find My Code - Pakistan',
         metaDescription: localStorage.getItem('site_desc') || 'A modern, aesthetic Pakistan Pincode Finder.',
-        footerCredit: localStorage.getItem('site_footer') || 'Zip Code Finder. All rights reserved.',
+        footerCredit: localStorage.getItem('site_footer') || 'Find My Code. All rights reserved.',
         websiteLogo: localStorage.getItem('site_logo') || '',
         favicon: localStorage.getItem('site_favicon') || ''
     });
@@ -1627,9 +1632,9 @@ const About = () => (
                      <i className="fa-solid fa-map-location-dot"></i>
                 </div>
             </div>
-            <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-6 tracking-tight">About Zip Code Finder</h1>
+            <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-6 tracking-tight">About Find My Code</h1>
             <p className="text-lg text-gray-600 dark:text-gray-300 mb-12 leading-relaxed max-w-2xl mx-auto">
-                Zip Code Finder is the ultimate utility designed for citizens and businesses in Pakistan. 
+                Find My Code is the ultimate utility designed for citizens and businesses in Pakistan. 
                 We bridge the gap between you and the postal network with accuracy, speed, and a beautiful user experience.
             </p>
 
@@ -1713,7 +1718,7 @@ const Contact = () => (
                                 </div>
                                 <div>
                                     <p className="text-sm font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wide">Email Us</p>
-                                    <a href="mailto:support@zipcodefinder.com" className="text-lg font-medium text-gray-800 dark:text-gray-200 hover:text-[#8B5CF6] transition">support@zipcodefinder.com</a>
+                                    <a href="mailto:support@findmycode.com" className="text-lg font-medium text-gray-800 dark:text-gray-200 hover:text-[#8B5CF6] transition">support@findmycode.com</a>
                                 </div>
                             </div>
                             <div className="flex items-start gap-4">
@@ -1782,7 +1787,7 @@ const Privacy = () => (
             <div className="prose dark:prose-invert max-w-none">
                 <p className="mb-4 text-gray-600 dark:text-gray-300">Last updated: {new Date().toLocaleDateString()}</p>
                 <p className="mb-4 text-gray-600 dark:text-gray-300">
-                    At Zip Code Finder, we prioritize your privacy. This policy outlines the minimal data we collect and how it is used.
+                    At Find My Code, we prioritize your privacy. This policy outlines the minimal data we collect and how it is used.
                     Currently, our application operates as a client-side utility and does not store personal user data on our servers.
                 </p>
                 <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mt-6 mb-4">Data Collection</h2>
@@ -1806,15 +1811,15 @@ const Terms = () => (
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">Terms & Conditions</h1>
             <div className="prose dark:prose-invert max-w-none">
                 <p className="mb-4 text-gray-600 dark:text-gray-300">
-                    Welcome to Zip Code Finder. By using our website, you agree to comply with and be bound by the following terms.
+                    Welcome to Find My Code. By using our website, you agree to comply with and be bound by the following terms.
                 </p>
                 <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mt-6 mb-4">Use of Information</h2>
                 <p className="mb-4 text-gray-600 dark:text-gray-300">
-                    The content provided on Zip Code Finder is for general information purposes only. While we strive for accuracy, we do not guarantee the completeness or timeliness of the postal data.
+                    The content provided on Find My Code is for general information purposes only. While we strive for accuracy, we do not guarantee the completeness or timeliness of the postal data.
                 </p>
                 <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100 mt-6 mb-4">Limitation of Liability</h2>
                 <p className="mb-4 text-gray-600 dark:text-gray-300">
-                    Zip Code Finder shall not be held liable for any incorrect postal deliveries or issues arising from the use of the information provided on this site. Always verify critical information with official post office sources.
+                    Find My Code shall not be held liable for any incorrect postal deliveries or issues arising from the use of the information provided on this site. Always verify critical information with official post office sources.
                 </p>
             </div>
         </div>
@@ -1823,14 +1828,14 @@ const Terms = () => (
 );
 
 const Footer = () => {
-    const [footerText, setFooterText] = useState(`© ${new Date().getFullYear()} Zip Code Finder. All rights reserved.`);
-    const [siteName, setSiteName] = useState('Zip Code Finder');
+    const [footerText, setFooterText] = useState(`© ${new Date().getFullYear()} Find My Code. All rights reserved.`);
+    const [siteName, setSiteName] = useState('Find My Code');
     const [siteLogo, setSiteLogo] = useState('');
     
     useEffect(() => {
         const loadConfig = () => {
-            setFooterText(localStorage.getItem('site_footer') || `© ${new Date().getFullYear()} Zip Code Finder. All rights reserved.`);
-            setSiteName(localStorage.getItem('site_name') || 'Zip Code Finder');
+            setFooterText(localStorage.getItem('site_footer') || `© ${new Date().getFullYear()} Find My Code. All rights reserved.`);
+            setSiteName(localStorage.getItem('site_name') || 'Find My Code');
             setSiteLogo(localStorage.getItem('site_logo') || '');
         };
         
